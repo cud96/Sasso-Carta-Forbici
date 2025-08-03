@@ -46,10 +46,9 @@
         background-color: bisque;
         margin: 5px;
         padding: 5vw;
-
-        img {
-          width: 60px;
-        }
+      }
+      img {
+        width: 60px;
       }
 
       @keyframes agitazione {
@@ -64,14 +63,17 @@
 
     <script>
       //inizia JS
-
-      let btnPugno = document.getElementsByClassName("pugno");
       const start = document.getElementById("start");
       let acceso = false;
+      let giocata = 0;
+      console.log(acceso);
       let numeroCasuale = Math.floor(Math.random() * (180 - 90) + 90);
       let paragrafo = document.getElementById("paragrafo");
+      let risultatoFinale = "";
 
       start.addEventListener("click", () => {
+        if (risultatoFinale) risultatoFinale.remove();
+        let btnPugno = document.getElementsByClassName("pugno");
         acceso = !acceso;
         if (acceso) {
           start.style.backgroundColor = "red";
@@ -83,6 +85,38 @@
               "agitazione 0.1ms infinite alternate ease-in-out";
           }
           console.log(acceso);
+          if (giocata == 1) {
+            if (testo) testo.remove();
+            if (vs) vs.remove();
+            if (pc) pc.remove();
+            document.querySelectorAll("img").forEach((img) => img.remove());
+
+            for (let i = 0; i < 3; i++) {
+              let nuovoBtn = document.createElement("button");
+              nuovoBtn.className = "pugno"; // importante per animazione
+              nuovoBtn.style.backgroundColor = "bisque";
+              nuovoBtn.style.margin = "5px";
+              nuovoBtn.style.padding = "5vw";
+              nuovoBtn.style.border = "none";
+
+              let nuovaImg = document.createElement("img");
+              nuovaImg.src = "./img/agito.png"; // controlla il path
+              nuovaImg.style.width = "60px";
+
+              nuovoBtn.appendChild(nuovaImg);
+              document.body.appendChild(nuovoBtn);
+
+              // animazione
+              nuovoBtn.style.animation =
+                "agitazione 0.1ms infinite alternate ease-in-out";
+            }
+            for (let btn of btnPugno) {
+              btn.style.animation =
+                "agitazione 0.1ms infinite alternate ease-in-out";
+            }
+          }
+          giocata = 0;
+          console.log("la gioacta è" + giocata);
         } else {
           start.style.backgroundColor = "green";
           start.textContent = "Start";
@@ -93,6 +127,128 @@
           }
           console.log(acceso);
           console.log("qua devo creare il gioco");
+
+          //tolgo gli altri bottoni allo stop
+          [...btnPugno].forEach((element) => element.remove());
+          console.log("rimossi tutti gli elementi");
+          //generatore numero casuale da 1 a 3
+          let numeroCasualeDaUnoTre = Math.floor(Math.random() * (4 - 1) + 1);
+          console.log(numeroCasualeDaUnoTre);
+          // ora lo switch determina a quale immagine corrisponde il numero selezionato
+          let scelta = numeroCasualeDaUnoTre;
+          let vecchiaImmagine = document
+            .querySelectorAll("img")
+            .forEach((img) => img.remove());
+          let testoVecchio = document.getElementById("testo");
+          if (testoVecchio) {
+            testoVecchio.remove();
+          }
+          let risultato = document.createElement("img");
+
+          risultato.style.width = "70px";
+          risultato.style.height = "70px";
+          risultato.style.margin = "10px";
+          let testo = document.createElement("p");
+          testo.id = "testo";
+          testo.textContent = "Hai scelto :";
+          document.body.appendChild(testo);
+          switch (scelta) {
+            case 1:
+              console.log("risultato è 1(forbici)");
+              risultato.src = ".//img/forbici.png";
+              break;
+            case 2:
+              console.log("risultato è 2(carta)");
+              risultato.src = ".//img/mano.png";
+              break;
+            case 3:
+              console.log("risultato è 3(sasso)");
+              risultato.src = ".//img/pugno.png";
+              break;
+            default:
+              console.log("Errore:riprovare");
+              break;
+          }
+          document.body.appendChild(risultato);
+          //creo il VS
+          let vsVecchio = document.getElementById("vs");
+          if (vsVecchio) {
+            vsVecchio.remove();
+          }
+          let vs = document.createElement("p");
+          vs.id = "vs";
+          vs.textContent = "VS";
+          vs.style.fontSize = "20px";
+          document.body.appendChild(vs);
+
+          //creiamo il pc
+          let pcVecchio = document.getElementById("pc");
+          if (pcVecchio) {
+            pcVecchio.remove();
+          }
+          let pc = document.createElement("p");
+          pc.id = "pc";
+          pc.textContent = "Il PC ha scelto:";
+          pc.style.fontSize = "20px";
+          document.body.appendChild(pc);
+
+          //pc
+          //generatore numero casuale da 1 a 3
+          let numeroCasualeDaUnoTrePC = Math.floor(Math.random() * (4 - 1) + 1);
+          console.log(numeroCasualeDaUnoTrePC);
+          // ora lo switch determina a quale immagine corrisponde il numero selezionato
+          let sceltaPC = numeroCasualeDaUnoTrePC;
+
+          let testoVecchioPC = document.getElementById("testoPC");
+          if (testoVecchioPC) {
+            testoVecchioPC.remove();
+          }
+          let risultatoPC = document.createElement("img");
+
+          risultatoPC.style.width = "70px";
+          risultatoPC.style.height = "70px";
+          risultatoPC.style.margin = "10px";
+
+          switch (sceltaPC) {
+            case 1:
+              console.log("risultato del PC è 1(forbici)");
+              risultatoPC.src = ".//img/forbici.png";
+              break;
+            case 2:
+              console.log("risultato del PC è 2(carta)");
+              risultatoPC.src = ".//img/mano.png";
+              break;
+            case 3:
+              console.log("risultato del PC è 3(sasso)");
+              risultatoPC.src = ".//img/pugno.png";
+              break;
+            default:
+              console.log("Errore:riprovare");
+              break;
+          }
+          document.body.appendChild(risultatoPC);
+          giocata += 1;
+          console.log("la gioacta è" + giocata);
+
+          //p con scritto vittoria sconfitta e pareggio
+          risultatoFinale = document.createElement("p");
+          risultatoFinale.style.fontWeight = "bold";
+          risultatoFinale.style.fontSize = "20px";
+
+          if (scelta === sceltaPC) {
+            risultatoFinale.textContent = "Pareggio!";
+          } else if (
+            (scelta === 1 && sceltaPC === 2) ||
+            (scelta === 2 && sceltaPC === 3) ||
+            (scelta === 3 && sceltaPC === 1)
+          ) {
+            risultatoFinale.textContent = "Hai Vinto!";
+          } else {
+            risultatoFinale.textContent = "Hai Perso!";
+          }
+
+          document.body.appendChild(risultatoFinale);
+          giocata = 1;
         }
       });
     </script>
