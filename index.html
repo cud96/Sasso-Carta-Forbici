@@ -8,7 +8,7 @@
   <body>
     <div>
       <h1>Sasso Carta Forbici</h1>
-      <h4>Gioco Morra cinese</h4>
+      <strong><p id="paragrafo">Clicca per giocare!!</p></strong>
       <button class="start" aria-roledescription="start game" id="start">
         Start
       </button>
@@ -69,26 +69,30 @@
       const start = document.getElementById("start");
       let acceso = false;
       let numeroCasuale = Math.floor(Math.random() * (180 - 90) + 90);
+      let paragrafo = document.getElementById("paragrafo");
 
       start.addEventListener("click", () => {
         acceso = !acceso;
         if (acceso) {
           start.style.backgroundColor = "red";
           start.textContent = "Stop";
+          paragrafo.textContent = "Clicca per fermare!!";
+
           for (let btn of btnPugno) {
             btn.style.animation =
               "agitazione 0.1ms infinite alternate ease-in-out";
           }
           console.log(acceso);
-          
         } else {
           start.style.backgroundColor = "green";
           start.textContent = "Start";
+          paragrafo.textContent = "Clicca per giocare!!";
+
           for (let btn of btnPugno) {
             btn.style.animation = "none";
           }
           console.log(acceso);
-        console.log("qua devo creare il gioco")
+          console.log("qua devo creare il gioco");
         }
       });
     </script>
